@@ -12,40 +12,19 @@ export const UserCont = () => {
     currentPageRef.current = currentPage;
 
     //fetches data from GITHUB USERS API and spreading it to users state
-    const fetchUserData = (url) => {
-        fetch(url)
-            .then(response => {
-                //extracts from Header the Link property and sets it to CurrentPage for next lazy loading
-                response.headers.forEach((value, name) => {
-                    if (name === 'link') {
-                        let myLink = value.split(';');
-                        let nextLink = myLink[0].replace(/<(.*)>/, '$1').trim()
-                        setCurrentPage(nextLink );
-                    }
-                })
-                return response.json()            
-            })
-            .then(data =>{ 
-                console.log(data);
-                //adds new Users to current state
-                setUsers([...users, ...data]);
-                setIsFetching(false);
-            })
-            .catch(err => console.log("ERROR FETCHING USERS", err)
-            );
-    }
 
-    //checks to see if the user is at the bottom, if so envokes fetchUserData()
+
+    //checks to see if the user is at the bottom, if so envokes fetchUsersData()
     const handleScroll = () => {
         if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
             return;
         }
-        fetchUserData(currentPageRef.current);
+        fetchUsersData(currentPage);
     }
 
     // //initial component mount
     // useEffect(() => {
-    //         fetchUserData(currentPageRef.current);
+    //         fetchUsersData(currentPageRef.current);
     //     }, []);
     
     // //resets after user state changes

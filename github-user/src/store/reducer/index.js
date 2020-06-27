@@ -11,6 +11,13 @@ const initialState = {
 }
 
 
-export githubUserReducer = (state=initialState, ) => {
-
+export const githubUserReducer = (state=initialState, action) => {
+    switch (action.type) {
+        case value:
+            
+            break;
+    
+        default:
+            break;
+    }
 }
