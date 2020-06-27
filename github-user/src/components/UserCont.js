@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
-// import UserCard from './UserCard';
-import { dummyUsers } from './DummyData';
 import { fetchUsersData, fetchIndData  } from '../store/actions';
 import UserCard from './UserCard';
+import { Link } from 'react-router-dom';
 
 const UserCont = ({fetchUsersData, fetchIndData, users, currentPage, isFetchingAll, userInfo, isFetchingInd}) => {
 
@@ -16,8 +15,8 @@ const UserCont = ({fetchUsersData, fetchIndData, users, currentPage, isFetchingA
         fetchUsersData(currentPage);
     }
 
-    const handleClick = (login) => {
-        fetchIndData(login);
+    const handleClick = async (login) => {
+        await fetchIndData(login);
     }
 
     //initial component mount
@@ -37,11 +36,13 @@ const UserCont = ({fetchUsersData, fetchIndData, users, currentPage, isFetchingA
             <div className="user-cont">
                 {
                     users.map((user, index) => (
-                        <div key={user.id} className="user-card" onClick={()=>{handleClick(user.login)}}>
-                            <UserCard 
-                                img={user.avatar_url}
-                                login={user.login}
-                            />
+                        <div key={user.id} onClick={()=>{handleClick(user.login)}}>
+                            <Link to={`users/${user.login}`}>
+                                <UserCard 
+                                    img={user.avatar_url}
+                                    login={user.login}
+                                />
+                            </Link>
                         </div>
                     ))
                 }  

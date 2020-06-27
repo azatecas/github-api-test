@@ -33,6 +33,7 @@ export const fetchUsersData = (url) => (dispatch) => {
 
 export const FETCH_IND = "FETCH_IND";
 export const FETCH_IND_SUCCESS = "FETCH_IND_SUCCESS";
+export const FETCH_IND_REPO = "FETCH_IND_REPO";
 export const FETCH_IND_REPO_SUCCESS = "FETCH_IND_REPO_SUCCESS";
 export const FETCH_IND_REPO_FAIL = "FETCH_IND_REPO_FAIL";
 export const FETCH_IND_FAIL = "FETCH_IND_FAIL";
@@ -46,6 +47,7 @@ export const fetchIndData = (login) => (dispatch) => {
         .then(response => response.json())
         .then(data =>{ 
             dispatch({type:FETCH_IND_SUCCESS, payload: data})
+            dispatch({type: FETCH_IND_REPO })
             fetch(data.repos_url)
                 .then(res => res.json())
                 .then(dataRes => {

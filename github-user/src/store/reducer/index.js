@@ -5,6 +5,7 @@ import {
     FETCH_USERS_FAIL,
     FETCH_IND,
     FETCH_IND_SUCCESS,
+    FETCH_IND_REPO,
     FETCH_IND_REPO_SUCCESS,
     FETCH_IND_REPO_FAIL,
     FETCH_IND_FAIL,
@@ -16,8 +17,8 @@ const initialState = {
     isFetchingAll: false,
     isFetchingInd: false,
     isFetchingRepo: false,
-    userInfo: null,
-    userRepo: null,
+    userInfo: {},
+    userRepo: [],
     errorAll: null,
     errorUser: null,
     errorRepo: null,
@@ -63,17 +64,24 @@ export const githubUserReducer = (state=initialState, action) => {
                 userInfo: action.payload,
                 isFetchingInd: false,
             }
+        case FETCH_IND_REPO:
+            return {
+                ...state,
+                isFetchingRepo: true,
+            }
         
         case FETCH_IND_REPO_SUCCESS:
             return {
                 ...state,
-                userRepo: action.payload,
+                userRepo: [...action.payload],
+                isFetchingRepo: false,
             }
         
         case FETCH_IND_REPO_FAIL:
             return {
                 ...state,
                 errorRepo: action.payload,
+                isFetchingRepo: false,
             }
         
         case FETCH_IND_FAIL:
