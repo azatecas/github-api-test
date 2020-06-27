@@ -9,20 +9,23 @@ const UserPage= ({userRepo, userInfo, isFetchingRepo}) => {
     console.log(dummyInd)
 
     return(
-        <div>
-            <h1>Welcome to user page</h1>
-            { isFetchingRepo ? <h1>Loading</h1> : 
+        <div className="app">
+            { isFetchingRepo ? 
+                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> 
+                : 
             <div>
-            <h1>DONE</h1>
              <UserCard 
                 img={userInfo.avatar_url}
                 login={userInfo.login}
             />
 
-            <div>
+            <div className="repo-cont">
                 {userRepo.map(repo => (
-                    <div key={repo.id}>
-                        {repo.full_name}
+                    <div key={repo.id} className="repo-card">
+                        <h3>{repo.name}</h3>
+                        <p>{repo.description}</p>
+                        <p>{repo.language}</p>
+                        <p>{repo.forks}</p>
                     </div>
                 ))}
             </div> 
