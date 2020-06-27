@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { UserCont } from './components/UserCont';
+import UserCont from './components/UserCont';
 
 function App() {
   return (

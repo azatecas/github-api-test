@@ -52,8 +52,10 @@ table {
 
 .app {
   display: flex;
+  flex-direction: column;
   font-family: Arial, Helvetica, sans-serif;
   justify-content: center;
+  align-items: center;
   background-color: rgb(106, 106, 106);
   box-shadow:         inset 0 50px 100px #000000;
 }
