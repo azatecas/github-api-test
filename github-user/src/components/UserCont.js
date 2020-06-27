@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 // import UserCard from './UserCard';
 import { dummyUsers } from './DummyData';
 import { fetchUsersData, fetchIndData  } from '../store/actions';
-import gitImg from '../img/github.png';
 import UserCard from './UserCard';
 
 const UserCont = ({fetchUsersData, fetchIndData, users, currentPage, isFetchingAll, userInfo, isFetchingInd}) => {
@@ -47,7 +46,8 @@ const UserCont = ({fetchUsersData, fetchIndData, users, currentPage, isFetchingA
                     ))
                 }  
             </div>
-        { isFetchingAll && <h1>SUPER LOADING</h1>}
+            {/* loader for next page request */}
+        { isFetchingAll && <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>}
         </>
     )
 }
