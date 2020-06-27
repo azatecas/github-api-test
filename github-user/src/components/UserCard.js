@@ -1,11 +1,12 @@
 import React from 'react';
 
-export const UserCard = ({id, login, img}) => {
+export const UserCard = ({login, img, id}) => {
 
     return (
-        <div key={id} className="user-card">
+        <div className="user-card">
             <img src={img} alt={login} />
             <h3>{login}</h3>
+            <h6>{id}</h6>
 
         </div>
     )

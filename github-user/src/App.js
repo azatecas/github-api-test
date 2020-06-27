@@ -6,7 +6,6 @@ function App() {
   return (
     <div>
       <UserCont />
-      <h2>running.....</h2>
     </div>
   );
 }
