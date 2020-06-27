@@ -40,8 +40,8 @@ export const FETCH_IND_REPO_FAIL = "FETCH_IND_REPO_FAIL";
 export const FETCH_IND_FAIL = "FETCH_IND_FAIL";
 
 
-
-export const fetchUserData = (login) => (dispatch) => {
+//fetches github user individual data
+export const fetchIndData = (login) => (dispatch) => {
     dispatch({type: FETCH_IND})
 
     fetch(`https://api.github.com/users/${login}`)
@@ -51,11 +51,15 @@ export const fetchUserData = (login) => (dispatch) => {
             fetch(data.repos_url)
                 .then(res => res.json())
                 .then(dataRes => {
-                    console.log("mmmmmmmmmmmmmmmm",dataRes);
-                    setRepos(dataRes);
+                    dispatch({type: FETCH_IND_REPO_SUCCESS, payload: dataRes})
                 })
-                .catch(err => console.log("ERROR FETCHING USER REPOS"))
+                .catch(err => {
+                    console.log("ERROR FETCHING USER REPOS");
+                    dispatch({type: FETCH_IND_REPO_FAIL, payload: err})
+                })
         })
-        .catch(err => console.log("ERROR FETCHING USER PROFILE INFO", err)
-        );
+        .catch(err => {
+            console.log("ERROR FETCHING USER PROFILE INFO", err);
+            dispatch({type: FETCH_IND_FAIL, payload: err})
+        });
 }
