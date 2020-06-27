@@ -1,54 +1,29 @@
-import React, {useState} from 'react';
-import gitImg from '../img/github.png'
+import React from 'react';
+import { connect } from 'react-redux';
+import gitImg from '../img/github.png';
+import { fetchIndData } from '../store/actions';
 
-export const UserCard = ({login, img, id}) => {
-    const [bool, setBool] = useState(false);
-    const [userInfo, setUserInfo] = useState(null);
-    const [repos, setRepos] = useState(null)
-
-
-    const fetchUserData = (login) => {
-        fetch(`https://api.github.com/users/${login}`)
-            .then(response => response.json())
-            .then(data =>{ 
-                console.log(data);
-                setUserInfo(data)
-                fetch(data.repos_url)
-                    .then(res => res.json())
-                    .then(dataRes => {
-                        console.log("mmmmmmmmmmmmmmmm",dataRes);
-                        setRepos(dataRes);
-                    })
-                    .catch(err => console.log("ERROR FETCHING USER REPOS"))
-            })
-            .catch(err => console.log("ERROR FETCHING USER PROFILE INFO", err)
-            );
-    }
+const UserCard = ({fetchIndData, userInfo, isFetchingInd}) => {
 
     const  handleClick = async (e, login) => {
         e.preventDefault();
         e.stopPropagation();
         
         if(await !userInfo){
-            fetchUserData(login);
+            fetchIndData(userInfo.login);
         }
-
     }
 
 
     return (
-        <div className="user-card" onClick={async (e)=>{ await handleClick(e, login)}}>
-            <div className="card-bg1">
+        <div className="user-card" onClick={async (e)=>{ await handleClick(e, userInfo.login)}}>
+            <div className="card-bg1"/>
 
-            </div>
-
-            <div className="card-bg2">
-
-            </div>
+            <div className="card-bg2"/>
 
             <div className="card-info-cont">
-                <img id="profile-img" src={img} alt={login} />
-                <h3>{login}</h3> 
+                <img id="profile-img" src={userInfo.avatar_url} alt={userInfo.login} />
+                <h3>{userInfo.login}</h3> 
                 <img id="logo" src={gitImg} alt="github" />
 
             </div>
@@ -56,3 +31,17 @@ export const UserCard = ({login, img, id}) => {
         </div>
     )
 }
+
+const mapStateToProps = state => {
+    return {
+        isFetchingInd: state.isFetchingInd,
+        userInfo: state.userInfo,
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    {
+        fetchIndData,
+    }
+)(UserCard);

@@ -3,21 +3,25 @@ import {
     FETCH_PAGINATION_LINK,
     FETCH_USERS_SUCCESS,
     FETCH_USERS_FAIL,
+    FETCH_IND,
+    FETCH_IND_SUCCESS,
+    FETCH_IND_REPO_SUCCESS,
+    FETCH_IND_REPO_FAIL,
+    FETCH_IND_FAIL,
 } from '../actions/index';
-
 
 const initialState = {
     users: [],
     currentPage: 'https://api.github.com/users?since=0',
     isFetchingAll: false,
     isFetchingInd: false,
+    isFetchingRepo: false,
     userInfo: null,
-    userRepos: null,
+    userRepo: null,
     errorAll: null,
     errorUser: null,
     errorRepo: null,
 }
-
 
 export const githubUserReducer = (state=initialState, action) => {
     switch (action.type) {
@@ -47,24 +51,39 @@ export const githubUserReducer = (state=initialState, action) => {
                 errorAll: action.payload
             }
         
-        break;
-        case value:
+        case FETCH_IND:
+            return { 
+                ...state,
+                isFetchingInd: true,
+            }
         
-        break;
-        case value:
+        case FETCH_IND_SUCCESS:
+            return {
+                ...state,
+                userInfo: action.payload,
+                isFetchingInd: false,
+            }
         
-        break;
-        case value:
+        case FETCH_IND_REPO_SUCCESS:
+            return {
+                ...state,
+                userRepo: action.payload,
+            }
         
-        break;
-        case value:
+        case FETCH_IND_REPO_FAIL:
+            return {
+                ...state,
+                errorRepo: action.payload,
+            }
         
-        break;
-        case value:
+        case FETCH_IND_FAIL:
+            return {
+                ...state,
+                errorUser: action.payload,
+                isFetchingInd: false
+            }
         
-        break;
-    
         default:
-            break;
+            return state
     }
 }

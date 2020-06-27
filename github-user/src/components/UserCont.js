@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React from 'react';
+import { connect } from 'react-redux';
 import { UserCard } from './UserCard';
 import { dummyUsers } from './DummyData';
+import { fetchUsersData } from '../store/actions';
 
-export const UserCont = () => {
-    const [users, setUsers] = useState(dummyUsers);
-    const [currentPage, setCurrentPage] = useState(`https://api.github.com/users?since=0`);
-    const [isFetching, setIsFetching] = useState(false);
+const UserCont = ({fetchUsersData, users, currentPage, isFetchingAll}) => {
+    // const [users, setUsers] = useState(dummyUsers);
+    // const [currentPage, setCurrentPage] = useState(`https://api.github.com/users?since=0`);
+    // const [isFetching, setIsFetching] = useState(false);
 
     //tracks of the most current state for the link url
-    const currentPageRef = useRef(currentPage);
-    currentPageRef.current = currentPage;
+    // const currentPageRef = useRef(currentPage);
+    // currentPageRef.current = currentPage;
 
-    //fetches data from GITHUB USERS API and spreading it to users state
+
 
 
     //checks to see if the user is at the bottom, if so envokes fetchUsersData()
@@ -22,17 +24,16 @@ export const UserCont = () => {
         fetchUsersData(currentPage);
     }
 
-    // //initial component mount
-    // useEffect(() => {
-    //         fetchUsersData(currentPageRef.current);
-    //     }, []);
+    //initial component mount
+    useEffect(() => {
+            fetchUsersData(currentPage);
+        }, []);
     
-    // //resets after user state changes
-    // useEffect(() => {
-    //     setIsFetching(true);
-    //     window.addEventListener('scroll', handleScroll);
-    //     return () => window.removeEventListener('scroll', handleScroll);
-    //     }, [users]);
+    //resets after user state changes
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+        }, [users]);
 
 
     return (
@@ -48,8 +49,22 @@ export const UserCont = () => {
                     </div>
                 ))
             }  
-            { isFetching && <h1>SUPER LOADING</h1>}
+            { isFetchingAll && <h1>SUPER LOADING</h1>}
             
         </div>
     )
 }
+
+const mapStateToProps = state => {
+    return {
+        currentPage: state.currentPage,
+        users: state.users,
+        isFetchingAll: state.isFetchingAll,
+    }
+}
+
+
+export default connect(
+    mapStateToProps,
+     { fetchUsersData })
+    (UserCont)
