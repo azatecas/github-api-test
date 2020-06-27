@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { UserCard } from './UserCard';
-
+import { dummyUsers } from './DummyData';
 
 export const UserCont = () => {
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState(dummyUsers);
     const [currentPage, setCurrentPage] = useState(`https://api.github.com/users?since=0`);
     const [isFetching, setIsFetching] = useState(false);
 
-    //keeps track of the most current state for the link url
+    //tracks of the most current state for the link url
     const currentPageRef = useRef(currentPage);
     currentPageRef.current = currentPage;
 
-    //method manages fetching data from GITHUB USERS API and spreading it to users state
+    //fetches data from GITHUB USERS API and spreading it to users state
     const fetchUserData = (url) => {
         fetch(url)
             .then(response => {
@@ -43,17 +43,17 @@ export const UserCont = () => {
         fetchUserData(currentPageRef.current);
     }
 
-    //initial component mount
-    useEffect(() => {
-            fetchUserData(currentPageRef.current);
-        }, []);
+    // //initial component mount
+    // useEffect(() => {
+    //         fetchUserData(currentPageRef.current);
+    //     }, []);
     
-    //resets after user state changes
-    useEffect(() => {
-        setIsFetching(true);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-        }, [users]);
+    // //resets after user state changes
+    // useEffect(() => {
+    //     setIsFetching(true);
+    //     window.addEventListener('scroll', handleScroll);
+    //     return () => window.removeEventListener('scroll', handleScroll);
+    //     }, [users]);
 
 
     return (

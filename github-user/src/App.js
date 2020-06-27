@@ -4,7 +4,7 @@ import { UserCont } from './components/UserCont';
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <UserCont />
     </div>
   );

@@ -1,23 +1,136 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* End of CSS RESET */
+
+
+.app {
+  display: flex;
+  font-family: Arial, Helvetica, sans-serif;
+  justify-content: center;
+  background-color: rgb(106, 106, 106);
+  box-shadow:         inset 0 50px 100px #000000;
+}
+
+
 .user-cont {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
+  width: 80%;
 }
 
 .user-card {
-  width: 300px;
-  height: 300px;
-  border: 1px solid black;
+  width: 220px;
+  height: 280px;
+  /* border: 1px solid black; */
   border-radius: 20px;
-  margin: 5px;
+  margin: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  color: white;
 }
 
-.user-card img {
+#profile-img{
   width: 150px;
   border-radius: 50%;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 3px 1px 10px -4px rgb(0, 0, 0);
+}
+
+.user-card h3 {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+}
+
+#logo{
+  width: 30px;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.user-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 14px 6px rgba(0,0,0,0.75);
+  transition-duration: .3s;
+  cursor: pointer;
+}
+
+
+
+.card-bg1 {
+  background-color: rgb(209, 209, 209);
+  background-color: #bfbfbf;
+  background-image: url("https://www.transparenttextures.com/patterns/beige-paper.png");
+  height: 40%;
+  width: 100%;
+  top: 0;
+  border-radius: 20px 20px 0 0;
+}
+
+.card-bg2 {
+  background-color: rgb(41, 41, 41);
+  background-color: #000000;
+  background-image: url("https://www.transparenttextures.com/patterns/beige-paper.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+  height: 60%;
+  width: 100%;
+  border-radius:  0 0 20px 20px;
 }
