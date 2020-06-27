@@ -84,7 +84,7 @@ table {
 }
 
 #profile-img{
-  width: 150px;
+  width: 70%;
   border-radius: 50%;
   position: absolute;
   top: 40%;
@@ -102,9 +102,9 @@ table {
 }
 
 #logo{
-  width: 30px;
+  width: 12%;
   position: absolute;
-  bottom: -5px;
+  bottom: -1%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
