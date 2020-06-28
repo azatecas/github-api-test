@@ -93,13 +93,11 @@ const UserPage= ({userRepo, userInfo, isFetchingRepo, userFollowers, fetchIndDat
                 :
                 <div className="followers-cont">
                     { userFollowers.map(follower => (
-                        <div key={follower.id} onClick={()=>{handleClick(follower.login)}}>
-                            <NavLink to={`/${follower.login}`}>                      
+                        <div key={follower.id} onClick={()=>{extLink(follower.html_url)}}>                    
                                 <UserCard 
                                     img={follower.avatar_url}
                                     login={follower.login}
                                 />
-                            </NavLink>  
                         </div>
                     ))
                     }

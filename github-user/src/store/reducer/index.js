@@ -12,7 +12,11 @@ import {
     FETCH_FOLLOWERS_LINK,
     FETCH_REPO_LINK,
     FETCH_FOLLOWERS_SUCCESS,
-    FETCH_FOLLOWERS_FAIL
+    FETCH_FOLLOWERS_FAIL,
+    FETCH_SEARCH,
+    FETCH_SEARCH_SUCCESS,
+    FETCH_SEARCH_FAIL,
+    FETCH_NEXT_SEARCH_SUCCESS,
 
 } from '../actions/index';
 
@@ -31,6 +35,10 @@ const initialState = {
     errorUser: null,
     errorRepo: null,
     errorFollowers: null,
+    isSearching: false,
+    errorSearch: null,
+    nextSearchLink: '',
+    searchResults:[],
 }
 
 export const githubUserReducer = (state=initialState, action) => {
@@ -73,6 +81,7 @@ export const githubUserReducer = (state=initialState, action) => {
                 userInfo: action.payload,
                 isFetchingInd: false,
             }
+
         case FETCH_IND_REPO:
             return {
                 ...state,
@@ -92,21 +101,25 @@ export const githubUserReducer = (state=initialState, action) => {
                 errorRepo: action.payload,
                 isFetchingRepo: false,
             }
+
         case FETCH_REPO_LINK:
             return {
                 ...state,
                 currentRepoPage: action.payload,
             }
+
         case FETCH_FOLLOWERS_LINK:
             return {
                 ...state,
                 currentFollowerPage: action.payload,
             }
+
         case FETCH_FOLLOWERS_SUCCESS:
             return {
                 ...state,
                 userFollowers:[...state.userFollowers, ...action.payload]
             }
+
         case FETCH_FOLLOWERS_FAIL:
             return {
                 ...state,
@@ -119,6 +132,32 @@ export const githubUserReducer = (state=initialState, action) => {
                 errorUser: action.payload,
                 isFetchingInd: false
             }
+
+        case FETCH_SEARCH:
+            return {
+                ...state,
+                isSearching: true,
+            }
+
+        case FETCH_SEARCH_SUCCESS:
+            return {
+                ...state,
+                searchResults:[...state.searchResults, ...action.payload.items],
+            }
+
+        case FETCH_SEARCH_FAIL: 
+            return {
+                ...state,
+                isSearching: false,
+                errorSearch: action.payload,
+            }
+
+        case  FETCH_NEXT_SEARCH_SUCCESS:
+            return {
+                ...state,
+                nextSearchLink: action.payload,
+            }
+
         default:
             return state
     }

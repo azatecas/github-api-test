@@ -96,3 +96,30 @@ export const fetchIndData = (login) => (dispatch) => {
             dispatch({type: FETCH_IND_FAIL, payload: err})
         });
 }
+
+export const FETCH_SEARCH = "FETCH_SEARCH";
+export const FETCH_SEARCH_SUCCESS = "FETCH_SEARCH_SUCCESS";
+export const FETCH_SEARCH_FAIL = "FETCH_SEARCH_FAIL";
+export const FETCH_NEXT_SEARCH_SUCCESS = "FETCH_NEXT_SEARCH_SUCCESS";
+
+export const searchUser = (search) => dispatch => {
+    dispatch({ type: FETCH_SEARCH })
+    fetch(`https://api.github.com/search/users?q=${search}`)
+    .then(res => {
+        res.headers.forEach((value, name) => {
+            if (name === 'link') {
+                let myLink = value.split(';');
+                let nextLink = myLink[0].replace(/<(.*)>/, '$1').trim();
+                dispatch({ type: FETCH_NEXT_SEARCH_SUCCESS, payload: nextLink})
+            }
+        })
+        return res.json();
+    })
+    .then(data => {
+        dispatch({ type: FETCH_SEARCH_SUCCESS, payload: data})
+    })
+    .catch(err => {
+        console.log("ERROR SEARCHING", err);
+        dispatch({ type: FETCH_SEARCH_FAIL, payload: err})
+    });
+}
