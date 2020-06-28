@@ -6,14 +6,16 @@ import { connect } from 'react-redux';
 import RepoCard from './RepoCard';
 
 
-const UserPage= ({userRepo, userInfo, isFetchingRepo}) => {
+const UserPage= ({userRepo, userInfo, isFetchingRepo, userFollowers}) => {
 
-    const githubProfile = (url) => {
+    const [toggle, setToggle] = useState(false);
+
+    const extLink = (url) => {
         window.open(url, '_blank');
     }
 
-    const githubRepo = (url) => {
-        window.open(url, '_blank');
+    const handleToggle = () => {
+        setToggle(!toggle);
     }
 
     return(
@@ -23,7 +25,7 @@ const UserPage= ({userRepo, userInfo, isFetchingRepo}) => {
                 : 
             <div className="user-page-cont">
                 <div className="user-stat-cont">
-                    <div onClick={()=>{githubProfile(userInfo.html_url)}}>
+                    <div onClick={()=>{extLink(userInfo.html_url)}}>
                         <UserCard 
                             img={userInfo.avatar_url}
                             login={userInfo.login}
@@ -54,20 +56,43 @@ const UserPage= ({userRepo, userInfo, isFetchingRepo}) => {
                         </div>
                     </div>
                 </div>
-             
 
-            <div className="repo-cont">
-                {userRepo.map(repo => (
-                    <div key={repo.id} className="repo-card" onClick={()=>{githubRepo(repo.html_url)}}>
-                        <RepoCard 
-                            name={repo.name}
-                            description={repo.description}
-                            language={repo.language}
-                            forks={repo.forks}
-                        />
+                <div className="toggle-cont">
+                    <div className="btn" onClick={handleToggle}>
+                        Repositories
                     </div>
-                ))}
-            </div> 
+                    <div className="btn">
+                        Followers
+                    </div>
+                </div>
+                
+                {toggle ? 
+                <div className="repo-cont">
+                    {userRepo.map(repo => (
+                        <div key={repo.id} className="repo-card" onClick={()=>{extLink(repo.html_url)}}>
+                            <RepoCard 
+                                name={repo.name}
+                                description={repo.description}
+                                language={repo.language}
+                                forks={repo.forks}
+                            />
+                        </div>
+                    ))}
+                </div> 
+                :
+                <div className="followers-cont">
+                    { userFollowers.map(follower => (
+                        <div key={follower.id} onClick={()=>{extLink(follower.html_url)}}>                        
+                            <UserCard 
+                                img={follower.avatar_url}
+                                login={follower.login}
+                            />
+                        </div>
+                    ))
+                    }
+                </div>
+                }
+
             </div>}
         </div>
     )
@@ -77,7 +102,8 @@ const mapStateToProps = state => {
     return {
         userRepo: state.userRepo,
         userInfo: state.userInfo,
-        isFetchingRepo: state.isFetchingRepo
+        isFetchingRepo: state.isFetchingRepo,
+        userFollowers: state.userFollowers,
     }
 }
 

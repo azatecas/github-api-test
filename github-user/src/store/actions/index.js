@@ -39,7 +39,8 @@ export const FETCH_IND_REPO_FAIL = "FETCH_IND_REPO_FAIL";
 export const FETCH_IND_FAIL = "FETCH_IND_FAIL";
 export const FETCH_FOLLOWERS_LINK = "FETCH_FOLLOWERS_LINK";
 export const FETCH_REPO_LINK = "FETCH_REPO_LINK";
-
+export const FETCH_FOLLOWERS_SUCCESS = "FETCH_FOLLOWERS_SUCCESS";
+export const FETCH_FOLLOWERS_FAIL = "FETCH_FOLLOWERS_FAIL";
 
 //fetches github user individual data
 export const fetchIndData = (login) => (dispatch) => {
@@ -53,12 +54,13 @@ export const fetchIndData = (login) => (dispatch) => {
             //fetches repos for selected user
             fetch(data.repos_url)
                 .then(res => {
-                    response.headers.forEach((value, name) => {
+                    res.headers.forEach((value, name) => {
                         if (name === 'link') {
                             let myLink = value.split(';');
                             let nextLink = myLink[0].replace(/<(.*)>/, '$1').trim();
                             dispatch({type: FETCH_REPO_LINK, payload: nextLink});
                         }
+                    })
                     return res.json()
                 })
                 .then(dataRes => {
@@ -68,23 +70,25 @@ export const fetchIndData = (login) => (dispatch) => {
                     console.log("ERROR FETCHING USER REPOS");
                     dispatch({type: FETCH_IND_REPO_FAIL, payload: err})
                 })
+            
             //fetches followers for selected user
             fetch(data.followers_url)
                 .then(res => {
-                    response.headers.forEach((value, name) => {
+                    res.headers.forEach((value, name) => {
                         if (name === 'link') {
                             let myLink = value.split(';');
                             let nextLink = myLink[0].replace(/<(.*)>/, '$1').trim();
                             dispatch({type: FETCH_FOLLOWERS_LINK, payload: nextLink});
                         }
+                    })
                     return res.json()
                 })
                 .then(dataRes => {
-                    dispatch({type: FETCH_IND_REPO_SUCCESS, payload: dataRes})
+                    dispatch({type: FETCH_FOLLOWERS_SUCCESS, payload: dataRes})
                 })
                 .catch(err => {
                     console.log("ERROR FETCHING USER REPOS");
-                    dispatch({type: FETCH_IND_REPO_FAIL, payload: err})
+                    dispatch({type: FETCH_FOLLOWERS_FAIL, payload: err})
                 })
         })
         .catch(err => {

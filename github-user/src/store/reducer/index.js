@@ -11,6 +11,8 @@ import {
     FETCH_IND_FAIL,
     FETCH_FOLLOWERS_LINK,
     FETCH_REPO_LINK,
+    FETCH_FOLLOWERS_SUCCESS,
+    FETCH_FOLLOWERS_FAIL
 
 } from '../actions/index';
 
@@ -18,15 +20,17 @@ const initialState = {
     users: [],
     currentPage: 'https://api.github.com/users?since=0',
     currentRepoPage: '',
-    currentUserPage: '',
+    currentFollowerPage: '',
     isFetchingAll: false,
     isFetchingInd: false,
     isFetchingRepo: false,
     userInfo: {},
     userRepo: [],
+    userFollowers:[],
     errorAll: null,
     errorUser: null,
     errorRepo: null,
+    errorFollowers: null,
 }
 
 export const githubUserReducer = (state=initialState, action) => {
@@ -88,6 +92,26 @@ export const githubUserReducer = (state=initialState, action) => {
                 errorRepo: action.payload,
                 isFetchingRepo: false,
             }
+        case FETCH_REPO_LINK:
+            return {
+                ...state,
+                currentRepoPage: action.payload,
+            }
+        case FETCH_FOLLOWERS_LINK:
+            return {
+                ...state,
+                currentFollowerPage: action.payload,
+            }
+        case FETCH_FOLLOWERS_SUCCESS:
+            return {
+                ...state,
+                userFollowers:[...state.userFollowers, ...action.payload]
+            }
+        case FETCH_FOLLOWERS_FAIL:
+            return {
+                ...state,
+                errorFollowers: action.payload
+            }
         
         case FETCH_IND_FAIL:
             return {
@@ -95,7 +119,6 @@ export const githubUserReducer = (state=initialState, action) => {
                 errorUser: action.payload,
                 isFetchingInd: false
             }
-        
         default:
             return state
     }
