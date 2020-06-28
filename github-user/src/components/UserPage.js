@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { dummyInd } from './DummyData';
 import UserCard from './UserCard';
 import { connect } from 'react-redux';
-// import gitImg from '../img/github.png';
 import RepoCard from './RepoCard';
+import { NavLink } from 'react-router-dom';
+import { fetchIndData } from '../store/actions/index';
 
 
-const UserPage= ({userRepo, userInfo, isFetchingRepo, userFollowers}) => {
+const UserPage= ({userRepo, userInfo, isFetchingRepo, userFollowers, fetchIndData}) => {
 
-    const [toggle, setToggle] = useState(false);
+    const [tab, setTab] = useState('repositories');
 
     const extLink = (url) => {
         window.open(url, '_blank');
     }
 
-    const handleToggle = () => {
-        setToggle(!toggle);
+    const handleRepoTab = () => {
+        setTab('repositories');
+    }
+
+    const handleFollowersTab = () => {
+        setTab('followers');
+    }
+
+    const handleClick = async (login) => {
+        await fetchIndData(login);
     }
 
     return(
@@ -32,41 +40,44 @@ const UserPage= ({userRepo, userInfo, isFetchingRepo, userFollowers}) => {
                         />
                     </div>
                     <div className="user-info">
-                        <div>
-                            <h6>Name:</h6>
-                            <p>{userInfo.name}</p>
+                        <div className="name">
+                            <div >
+                                <h4>{userInfo.name}</h4>
+                            </div>
                         </div>
-                        <div>
-                            <h6>Location:</h6>
-                            <p>{userInfo.location}</p>
+                        <div className="details">
+                            <div>
+                                <h6>Location</h6>
+                                <p>{userInfo.location}</p>
+                            </div>
+                            <div>
+                                <h6>Public Repos</h6>
+                                <p>{userInfo.public_repos}</p>
+                            </div>
+                            <div>
+                                <h6>Followers</h6>
+                                <p>{userInfo.followers}</p>
+                            </div>
+                            <div>
+                                <h6>Following</h6>
+                                <p>{userInfo.following}</p>
+                            </div>
                         </div>
-                        <div>
-                            <h6>Public Repos:</h6>
-                            <p>{userInfo.public_repos}</p>
-                        </div>
-                        <div>
-                            <h6>Followers:</h6>
-                            <p>{userInfo.followers}</p>
-                        </div>
-                        <div>
-                            <h6>Following:</h6>
-                            <p>{userInfo.following}</p>
-                        </div>
-                        <div>
+                    <div>
                         </div>
                     </div>
                 </div>
 
                 <div className="toggle-cont">
-                    <div className="btn" onClick={handleToggle}>
+                    <div className={tab === 'repositories' ? 'btn btn-active' : 'btn btn-inactive'} onClick={handleRepoTab}>
                         Repositories
                     </div>
-                    <div className="btn">
+                    <div className={tab === 'followers' ? 'btn btn-active' : 'btn btn-inactive'} onClick={handleFollowersTab}>
                         Followers
                     </div>
                 </div>
                 
-                {toggle ? 
+                {tab === 'repositories'? 
                 <div className="repo-cont">
                     {userRepo.map(repo => (
                         <div key={repo.id} className="repo-card" onClick={()=>{extLink(repo.html_url)}}>
@@ -82,11 +93,13 @@ const UserPage= ({userRepo, userInfo, isFetchingRepo, userFollowers}) => {
                 :
                 <div className="followers-cont">
                     { userFollowers.map(follower => (
-                        <div key={follower.id} onClick={()=>{extLink(follower.html_url)}}>                        
-                            <UserCard 
-                                img={follower.avatar_url}
-                                login={follower.login}
-                            />
+                        <div key={follower.id} onClick={()=>{handleClick(follower.login)}}>
+                            <NavLink to={`/${follower.login}`}>                      
+                                <UserCard 
+                                    img={follower.avatar_url}
+                                    login={follower.login}
+                                />
+                            </NavLink>  
                         </div>
                     ))
                     }
@@ -109,5 +122,5 @@ const mapStateToProps = state => {
 
 export default connect(
     mapStateToProps,
-    {}
+    { fetchIndData }
 )(UserPage);
