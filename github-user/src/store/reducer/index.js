@@ -9,11 +9,16 @@ import {
     FETCH_IND_REPO_SUCCESS,
     FETCH_IND_REPO_FAIL,
     FETCH_IND_FAIL,
+    FETCH_FOLLOWERS_LINK,
+    FETCH_REPO_LINK,
+
 } from '../actions/index';
 
 const initialState = {
     users: [],
     currentPage: 'https://api.github.com/users?since=0',
+    currentRepoPage: '',
+    currentUserPage: '',
     isFetchingAll: false,
     isFetchingInd: false,
     isFetchingRepo: false,

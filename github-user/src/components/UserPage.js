@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { dummyInd } from './DummyData';
 import UserCard from './UserCard';
 import { connect } from 'react-redux';
-import gitImg from '../img/github.png';
+// import gitImg from '../img/github.png';
+import RepoCard from './RepoCard';
 
 
 const UserPage= ({userRepo, userInfo, isFetchingRepo}) => {
@@ -38,6 +39,10 @@ const UserPage= ({userRepo, userInfo, isFetchingRepo}) => {
                             <p>{userInfo.location}</p>
                         </div>
                         <div>
+                            <h6>Public Repos:</h6>
+                            <p>{userInfo.public_repos}</p>
+                        </div>
+                        <div>
                             <h6>Followers:</h6>
                             <p>{userInfo.followers}</p>
                         </div>
@@ -54,17 +59,12 @@ const UserPage= ({userRepo, userInfo, isFetchingRepo}) => {
             <div className="repo-cont">
                 {userRepo.map(repo => (
                     <div key={repo.id} className="repo-card" onClick={()=>{githubRepo(repo.html_url)}}>
-                        <div className="info-prop" id="card-logo">
-                            <img src={gitImg} alt="github" />
-                        </div>
-                        <div className="info-prop" id="card-detail">
-                            <h3>{repo.name}</h3>
-                            <p>{repo.description}</p>
-                        </div>
-                        <div className="info-prop" id="card-prop">
-                            <p>{repo.language}</p>
-                            <p>Forks: {repo.forks}</p>
-                        </div>                        
+                        <RepoCard 
+                            name={repo.name}
+                            description={repo.description}
+                            language={repo.language}
+                            forks={repo.forks}
+                        />
                     </div>
                 ))}
             </div> 
