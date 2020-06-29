@@ -16,7 +16,7 @@ const UserCont = ({
 
     //checks to see if the user is at the bottom, if so envokes fetchUsersData()
     const handleScroll = () => {
-        if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1) {
+        if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1){
             fetchUsersData(currentPage);
         }
     };
