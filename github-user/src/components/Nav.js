@@ -29,7 +29,7 @@ const Nav = ({searchUser, inProfile}) => {
                         className="search-bar"
                         name="search"
                         label="search" 
-                        placeholder="🔍Search by Users"
+                        placeholder="🔍Search Github Users"
                         onChange={handleChange}
                     /> 
                     <button type="submit" onClick={(e)=>{handleSubmit(e,search)}}>Search</button>
