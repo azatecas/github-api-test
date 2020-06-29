@@ -54,7 +54,6 @@ export const fetchIndData = (login) => (dispatch) => {
                 .then(res => {
                     res.headers.forEach((value, name) => {
                         if (name === 'link') {
-                            
                             dispatch({type: FETCH_REPO_LINK, payload: value});
                         }
                     })
@@ -156,18 +155,18 @@ export const fetchNextFollowers = (nextUrl) => (dispatch) =>{
         .then(res => {
             res.headers.forEach((value, name) => {
                 if (name === 'link') {
-                    dispatch({ type: NEXT_FOLLOWERS_LINK, payload: value});
+                    dispatch({ type: NEXT_FOLLOWERS_LINK, payload: value})
                 }
             })
-            return res.json();
+            return res.json()
         })
         .then(data => {
-            dispatch({ type: NEXT_FOLLOWERS_SUCCESS, payload: data});
+            dispatch({ type: NEXT_FOLLOWERS_SUCCESS, payload: data})
         })
         .catch(err => {
             console.log("ERROR SEARCHING", err);
             dispatch({ type: NEXT_FOLLOWERS_FAIL, payload: err});
-        });
+        })
 };
 
 //Handles fetch request for Repositories on Scroll, Deprecated since github repo enpoint doesn't return Header Pagination

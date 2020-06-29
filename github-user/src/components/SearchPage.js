@@ -20,13 +20,11 @@ const SearchPage = ({
     };
 
     const handleScroll = () => {
-        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
-            return;
-        };
-
-        let headerLink = parse(nextSearchLink);
-        if(headerLink !== null || headerLink !== '' ){ 
+        if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1) {     
+            let headerLink = parse(nextSearchLink);
+            if(headerLink !== null || headerLink !== '' ){ 
             fetchNextSearch(headerLink.next.url);
+            };
         };
     };
         
@@ -34,7 +32,7 @@ const SearchPage = ({
         window.onpopstate = e => {
             toggleNav(false);
          };
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll);
     }, [searchResults]);
 
