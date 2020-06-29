@@ -1,8 +1,6 @@
 import React from 'react';
 import gitImg from '../img/github.png';
 
-
-
 const RepoCard = ({name, description, language, forks}) => {
     return(
         <>
@@ -19,6 +17,6 @@ const RepoCard = ({name, description, language, forks}) => {
             </div>  
         </>
     )
-}
+};
 
 export default RepoCard;

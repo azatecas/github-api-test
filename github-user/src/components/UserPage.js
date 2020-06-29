@@ -56,7 +56,7 @@ const UserPage= ({
     return(
         <div className="app">
             { isFetchingRepo ? 
-                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> 
+                <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> 
                 : 
             <div className="user-page-cont">
                 <div className="user-stat-cont">
@@ -132,7 +132,7 @@ const UserPage= ({
                         
                     </div>
                     <div className="user-cont">
-                        { isFetchingFollowers && <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>}
+                        { isFetchingFollowers && <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>}
                         
                     </div>
                 </>

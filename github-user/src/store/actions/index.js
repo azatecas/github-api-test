@@ -27,8 +27,7 @@ export const fetchUsersData = (url) => (dispatch) => {
             console.log("ERROR FETCHING USERS", err);
             dispatch({type:FETCH_USERS_FAIL, payload:err});
         });
-}
-
+};
 
 export const FETCH_IND = "FETCH_IND";
 export const FETCH_IND_SUCCESS = "FETCH_IND_SUCCESS";
@@ -54,7 +53,6 @@ export const fetchIndData = (login) => (dispatch) => {
             fetch(data.repos_url)
                 .then(res => {
                     res.headers.forEach((value, name) => {
-                        console.log(name + ":" + value);
                         if (name === 'link') {
                             
                             dispatch({type: FETCH_REPO_LINK, payload: value});
@@ -92,7 +90,7 @@ export const fetchIndData = (login) => (dispatch) => {
             console.log("ERROR FETCHING USER PROFILE INFO", err);
             dispatch({type: FETCH_IND_FAIL, payload: err})
         });
-}
+};
 
 //handles search results and dispatches data to state
 export const FETCH_SEARCH = "FETCH_SEARCH";
@@ -118,7 +116,7 @@ export const searchUser = (search) => dispatch => {
         console.log("ERROR SEARCHING", err);
         dispatch({ type: FETCH_SEARCH_FAIL, payload: err})
     });
-}
+};
 
 //handles infinite scroll for search results 
 export const NEXT_SCROLL_START = 'NEXT_SCROLL_START';
@@ -131,7 +129,6 @@ export const fetchNextSearch = (nextUrl) => (dispatch) =>{
     fetch(nextUrl)
         .then(res => {
             res.headers.forEach((value, name) => {
-                console.log(name + ":" + value);
                 if (name === 'link') {
                     dispatch({ type: NEXT_SCROLL_SEARCH_LINK, payload: value});
                 }
@@ -145,7 +142,7 @@ export const fetchNextSearch = (nextUrl) => (dispatch) =>{
             console.log("ERROR SEARCHING", err);
             dispatch({ type: NEXT_SCROLL_SEARCH_FAIL, payload: err});
         });
-}
+};
 
 //handles infinite scroll for followers tab inside user profile page
 export const NEXT_FOLLOWERS_START = 'NEXT_FOLLOWERS_START';
@@ -158,7 +155,6 @@ export const fetchNextFollowers = (nextUrl) => (dispatch) =>{
     fetch(nextUrl)
         .then(res => {
             res.headers.forEach((value, name) => {
-                console.log(name + ":" + value);
                 if (name === 'link') {
                     dispatch({ type: NEXT_FOLLOWERS_LINK, payload: value});
                 }
@@ -172,8 +168,7 @@ export const fetchNextFollowers = (nextUrl) => (dispatch) =>{
             console.log("ERROR SEARCHING", err);
             dispatch({ type: NEXT_FOLLOWERS_FAIL, payload: err});
         });
-}
-
+};
 
 //Handles fetch request for Repositories on Scroll, Deprecated since github repo enpoint doesn't return Header Pagination
 
@@ -187,7 +182,6 @@ export const fetchNextRepo = (nextUrl) => (dispatch) =>{
     fetch(nextUrl)
         .then(res => {
             res.headers.forEach((value, name) => {
-                console.log(name + ":" + value);
                 if (name === 'link') {
                     dispatch({ type: NEXT_REPO_LINK, payload: value});
                 }
@@ -201,13 +195,11 @@ export const fetchNextRepo = (nextUrl) => (dispatch) =>{
             console.log("ERROR SEARCHING", err);
             dispatch({ type: NEXT_REPO_FAIL, payload: err});
         });
-}
-
-
+};
 
 
 
 export const IN_PROFILE = "IN_PROFILE";
 export const toggleNav = (current) => (dispatch) => {
     dispatch({ type:IN_PROFILE, payload: current})
-}
+};

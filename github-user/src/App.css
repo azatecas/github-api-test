@@ -395,6 +395,7 @@ form button:hover{
   form input{
     margin: .5rem;
     height: 4rem;
+    margin-top: 1.5rem;
   }
   form button{
     height: 4rem;

@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { searchUser } from '../store/actions'
+import { searchUser } from '../store/actions';
 import { useHistory } from 'react-router-dom';
 
 
-const Nav = ({isSearching, nextSearchLink, searchResults, searchUser,inProfile}) => {
+const Nav = ({searchUser, inProfile}) => {
     const [search, setSearch] = useState('');
-    const [profile, setProfile] = useState(false);
     const history = useHistory();
     const handleChange = e => {
         setSearch(
             e.target.value.toLowerCase()
-        )
+        );
     }
 
     const handleSubmit = (e, search) => {
@@ -19,10 +18,6 @@ const Nav = ({isSearching, nextSearchLink, searchResults, searchUser,inProfile})
         searchUser(search);
         history.push('/search');
     }
-
-    useEffect(() => {
-        setProfile(inProfile);
-    }, [inProfile]);
 
     return(
         <nav>
@@ -42,16 +37,13 @@ const Nav = ({isSearching, nextSearchLink, searchResults, searchUser,inProfile})
             }
         </nav>
     )
-}
+};
 
 const mapStateToProps = state => {
     return {
         inProfile: state.inProfile,
-        isSearching:state.isSearching,
-        nextSearchLink: state.nextSearchLink,
-        searchResults: state.searchResults,
-    }
-}
+    };
+};
 
 export default connect(
     mapStateToProps,

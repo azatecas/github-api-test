@@ -17,24 +17,23 @@ const SearchPage = ({
 
     const handleClick = async (login) => {
         await fetchIndData(login);
-    }
+    };
 
     const handleScroll = () => {
         if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
             return;
-        }
-        
+        };
+
         let headerLink = parse(nextSearchLink);
         if(headerLink !== null || headerLink !== '' ){ 
             fetchNextSearch(headerLink.next.url);
-        }
-    }
+        };
+    };
         
-
     useEffect(() => {
         window.onpopstate = e => {
-            toggleNav(false)
-         }
+            toggleNav(false);
+         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [searchResults]);
@@ -55,7 +54,7 @@ const SearchPage = ({
 
              </div>
              <div className="user-cont">
-                 { isSearching && <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>}  
+                 { isSearching && <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>}  
              </div>
             
         </>
@@ -68,7 +67,7 @@ const mapStateToProp = state => {
         nextSearchLink: state.nextSearchLink,
         isSearching: state.isSearching,
         nextSearchLink: state.nextSearchLink,
-    }
-}
+    };
+};
 
 export default connect(mapStateToProp,{fetchIndData,fetchNextSearch, toggleNav})(SearchPage);

@@ -13,6 +13,6 @@ const UserCard = ({img, login}) => {
             </div>
         </div>
     )
-}
+};
 
 export default UserCard;

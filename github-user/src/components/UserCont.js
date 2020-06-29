@@ -10,8 +10,6 @@ const UserCont = ({
     users,
     currentPage,
     isFetchingAll,
-    userInfo,
-    isFetchingInd,
     toggleNav,
     inProfile
     }) => {
@@ -20,20 +18,18 @@ const UserCont = ({
     const handleScroll = () => {
         if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
             return;
-        }
-        console.log("CURREEECT PAGE",currentPage)
-        
+        };
+
         fetchUsersData(currentPage);
-    }
+    };
 
     const handleClick = async (login) => {
         await fetchIndData(login);
-        toggleNav(inProfile);
-    }
+    };
 
     //initial component mount
     useEffect(() => {
-            fetchUsersData(currentPage);
+        fetchUsersData(currentPage);
     }, []);
     
     //resets after user state changes
@@ -43,17 +39,14 @@ const UserCont = ({
     }, [users, isFetchingAll]);
 
     useEffect(() => {
-        window.onpopstate = e => {
-            toggleNav(false)
-         }
+        toggleNav(false)
     }, [inProfile]);
-
 
     return (
         <>
             <div className="user-cont">
                 {
-                    users.map((user, index) => (
+                    users.map(user => (
                         <div key={user.id} onClick={()=>{handleClick(user.login)}}>
                             <Link to={`/${user.login}`}>
                                 <UserCard 
@@ -66,26 +59,23 @@ const UserCont = ({
                 }  
             </div>
             {/* loader for next page request */}
-        { isFetchingAll && <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>}
+        { isFetchingAll && <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>}
         </>
     )
-}
+};
 
 const mapStateToProps = state => {
     return {
         currentPage: state.currentPage,
         users: state.users,
         isFetchingAll: state.isFetchingAll,
-        isFetchingInd: state.isFetchingInd,
-        userInfo: state.userInfo,
         inProfile: state.inProfile,
-    }
-}
-
+    };
+};
 
 export default connect(
     mapStateToProps,
      { fetchUsersData,
         fetchIndData,
-        toggleNav,  })
-    (UserCont)
+        toggleNav}
+    )(UserCont);
