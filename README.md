@@ -1,3 +1,3 @@
 # github-api-test
 
-Github User information Client Side App with pagination utilizing React.js
+Github API Client App with Server side Pagination utilizing React.js and Redux State Management
