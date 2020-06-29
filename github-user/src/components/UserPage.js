@@ -2,11 +2,17 @@ import React, { useEffect, useState } from 'react'
 import UserCard from './UserCard';
 import { connect } from 'react-redux';
 import RepoCard from './RepoCard';
-import { NavLink } from 'react-router-dom';
-import { fetchIndData } from '../store/actions/index';
+import { fetchIndData, fetchNextFollowers} from '../store/actions/index';
+import  parse  from 'parse-link-header';
 
-
-const UserPage= ({userRepo, userInfo, isFetchingRepo, userFollowers, fetchIndData}) => {
+const UserPage= ({
+    userRepo,
+    userInfo,
+    isFetchingRepo,
+    userFollowers,
+    fetchNextFollowers,
+    nextFollowersLink
+    }) => {
 
     const [tab, setTab] = useState('repositories');
 
@@ -22,9 +28,20 @@ const UserPage= ({userRepo, userInfo, isFetchingRepo, userFollowers, fetchIndDat
         setTab('followers');
     }
 
-    const handleClick = async (login) => {
-        await fetchIndData(login);
+
+    const handleScroll = () => {
+        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
+            return;
+        }
+
+        let headerLink = parse(nextFollowersLink);
+        fetchNextFollowers(headerLink.next.url);   
     }
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [userFollowers]);
 
     return(
         <div className="app">
@@ -115,10 +132,14 @@ const mapStateToProps = state => {
         userInfo: state.userInfo,
         isFetchingRepo: state.isFetchingRepo,
         userFollowers: state.userFollowers,
+        nextFollowersLink: state.nextFollowersLink,
     }
 }
 
 export default connect(
     mapStateToProps,
-    { fetchIndData }
+    {
+        fetchIndData,
+        fetchNextFollowers,
+     }
 )(UserPage);

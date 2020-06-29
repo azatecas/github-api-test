@@ -17,6 +17,18 @@ import {
     FETCH_SEARCH_SUCCESS,
     FETCH_SEARCH_FAIL,
     FETCH_NEXT_SEARCH_SUCCESS,
+    NEXT_SCROLL_START,
+    NEXT_SCROLL_SEARCH_SUCCESS,
+    NEXT_SCROLL_SEARCH_FAIL,
+    NEXT_SCROLL_SEARCH_LINK,
+    NEXT_FOLLOWERS_START,
+    NEXT_FOLLOWERS_SUCCESS,
+    NEXT_FOLLOWERS_FAIL,
+    NEXT_FOLLOWERS_LINK,
+    NEXT_REPO_START,
+    NEXT_REPO_SUCCESS,
+    NEXT_REPO_FAIL,
+    NEXT_REPO_LINK,
 
 } from '../actions/index';
 
@@ -28,6 +40,7 @@ const initialState = {
     isFetchingAll: false,
     isFetchingInd: false,
     isFetchingRepo: false,
+    isFetchingFollowers: false,
     userInfo: {},
     userRepo: [],
     userFollowers:[],
@@ -39,6 +52,8 @@ const initialState = {
     errorSearch: null,
     nextSearchLink: '',
     searchResults:[],
+    nextFollowersLink:'',
+    nextRepoLink:'',
 }
 
 export const githubUserReducer = (state=initialState, action) => {
@@ -111,13 +126,13 @@ export const githubUserReducer = (state=initialState, action) => {
         case FETCH_FOLLOWERS_LINK:
             return {
                 ...state,
-                currentFollowerPage: action.payload,
+                nextFollowersLink: action.payload,
             }
 
         case FETCH_FOLLOWERS_SUCCESS:
             return {
                 ...state,
-                userFollowers:[...state.userFollowers, ...action.payload]
+                userFollowers:[...action.payload]
             }
 
         case FETCH_FOLLOWERS_FAIL:
@@ -142,7 +157,8 @@ export const githubUserReducer = (state=initialState, action) => {
         case FETCH_SEARCH_SUCCESS:
             return {
                 ...state,
-                searchResults:[...state.searchResults, ...action.payload.items],
+                searchResults:[...action.payload.items],
+                isSearching: false,
             }
 
         case FETCH_SEARCH_FAIL: 
@@ -156,6 +172,76 @@ export const githubUserReducer = (state=initialState, action) => {
             return {
                 ...state,
                 nextSearchLink: action.payload,
+            }
+        case NEXT_SCROLL_START:
+            return {
+                ...state,
+                isSearching: true,
+            }
+        case NEXT_SCROLL_SEARCH_SUCCESS:
+            return {
+                ...state,
+                searchResults:[...state.searchResults, ...action.payload.items],
+                isSearching: false,
+            }
+        case NEXT_SCROLL_SEARCH_FAIL: 
+            return {
+                ...state,
+                isSearching: false,
+                errorSearch: action.payload,
+            }
+        case  NEXT_SCROLL_SEARCH_LINK:
+            return {
+                ...state,
+                nextSearchLink: action.payload,
+            }
+
+    //STATE FOR FETCHING NEXT PAGE OF FOLLOWERS ON SCROLL
+        case NEXT_FOLLOWERS_START:
+            return {
+                ...state,
+                isFetchingFollowers: true,
+            }
+        case NEXT_FOLLOWERS_SUCCESS:
+            return {
+                ...state,
+                userFollowers:[...state.userFollowers, ...action.payload],
+                isFetchingFollowers: false,
+            }
+        case NEXT_FOLLOWERS_FAIL: 
+            return {
+                ...state,
+                isFetchingFollowers: false,
+                errorFollowers: action.payload,
+            }
+        case NEXT_FOLLOWERS_LINK:
+            return {
+                ...state,
+                nextFollowersLink: action.payload,
+            }
+
+        //STATE FOR FETCHING NEXT PAGE OF REPO ON SCROLL
+        case NEXT_REPO_START:
+            return {
+                ...state,
+                isFetchingRepo: true,
+            }
+        case NEXT_REPO_SUCCESS:
+            return {
+                ...state,
+                userRepo:[...state.userRepo, ...action.payload],
+                isFetchingRepo: false,
+            }
+        case NEXT_REPO_FAIL: 
+            return {
+                ...state,
+                isFetchingRepo: false,
+                errorRepo: action.payload,
+            }
+        case NEXT_REPO_LINK:
+            return {
+                ...state,
+                currentRepoPage: action.payload,
             }
 
         default:

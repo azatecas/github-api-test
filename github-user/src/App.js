@@ -13,11 +13,8 @@ function App({isSearching, searchResults}) {
     <Router>
     <Nav />
       <Switch>
-        {!isSearching ? <Route exact path="/" component={Home} />
-          :
-          <Route exact path="/" component={SearchPage} />
-        }
-        
+        <Route exact path="/" component={Home} />
+        <Route path="/search" component={SearchPage} />
         <Route path="/:id" component={UserPage} />
       </Switch>
     </Router>

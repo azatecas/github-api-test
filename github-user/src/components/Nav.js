@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { searchUser } from '../store/actions'
+import { useHistory } from 'react-router-dom';
 
 
 const Nav = ({isSearching, nextSearchLink, searchResults, searchUser}) => {
     const [search, setSearch] = useState('');
+    const history = useHistory();
 
     const handleChange = e => {
         setSearch(
@@ -14,6 +16,7 @@ const Nav = ({isSearching, nextSearchLink, searchResults, searchUser}) => {
 
     const handleSubmit = search => {
         searchUser(search);
+        history.push('/search');
     }
 
     return(

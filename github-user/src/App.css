@@ -80,6 +80,12 @@ nav {
   flex-wrap: wrap;
   justify-content: center;
   width: 80%;
+  margin: auto;
+}
+
+.search-user-cont{
+  width: 100%;
+  background-color: red;
 }
 
 .user-card {

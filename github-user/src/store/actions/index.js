@@ -1,4 +1,3 @@
-
 export const FETCH_USERS = "FETCH_USERS";
 export const FETCH_PAGINATION_LINK = "FETCH_PAGINATION_LINK";
 export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
@@ -55,10 +54,10 @@ export const fetchIndData = (login) => (dispatch) => {
             fetch(data.repos_url)
                 .then(res => {
                     res.headers.forEach((value, name) => {
+                        console.log(name + ":" + value);
                         if (name === 'link') {
-                            let myLink = value.split(';');
-                            let nextLink = myLink[0].replace(/<(.*)>/, '$1').trim();
-                            dispatch({type: FETCH_REPO_LINK, payload: nextLink});
+                            
+                            dispatch({type: FETCH_REPO_LINK, payload: value});
                         }
                     })
                     return res.json()
@@ -76,9 +75,7 @@ export const fetchIndData = (login) => (dispatch) => {
                 .then(res => {
                     res.headers.forEach((value, name) => {
                         if (name === 'link') {
-                            let myLink = value.split(';');
-                            let nextLink = myLink[0].replace(/<(.*)>/, '$1').trim();
-                            dispatch({type: FETCH_FOLLOWERS_LINK, payload: nextLink});
+                            dispatch({type: FETCH_FOLLOWERS_LINK, payload: value});
                         }
                     })
                     return res.json()
@@ -108,9 +105,7 @@ export const searchUser = (search) => dispatch => {
     .then(res => {
         res.headers.forEach((value, name) => {
             if (name === 'link') {
-                let myLink = value.split(';');
-                let nextLink = myLink[0].replace(/<(.*)>/, '$1').trim();
-                dispatch({ type: FETCH_NEXT_SEARCH_SUCCESS, payload: nextLink})
+                dispatch({ type: FETCH_NEXT_SEARCH_SUCCESS, payload: value})
             }
         })
         return res.json();
@@ -122,4 +117,83 @@ export const searchUser = (search) => dispatch => {
         console.log("ERROR SEARCHING", err);
         dispatch({ type: FETCH_SEARCH_FAIL, payload: err})
     });
+}
+
+
+export const NEXT_SCROLL_START = 'NEXT_SCROLL_START';
+export const NEXT_SCROLL_SEARCH_SUCCESS = 'NEXT_SCROLL_SEARCH_SUCCESS';
+export const NEXT_SCROLL_SEARCH_FAIL = 'NEXT_SCROLL_SEARCH_FAIL';
+export const NEXT_SCROLL_SEARCH_LINK = 'NEXT_SCROLL_SEARCH_LINK';
+
+export const fetchNextSearch = (nextUrl) => (dispatch) =>{
+    dispatch({ type: NEXT_SCROLL_START});
+    fetch(nextUrl)
+        .then(res => {
+            res.headers.forEach((value, name) => {
+                console.log(name + ":" + value);
+                if (name === 'link') {
+                    dispatch({ type: NEXT_SCROLL_SEARCH_LINK, payload: value});
+                }
+            })
+            return res.json();
+        })
+        .then(data => {
+            dispatch({ type: NEXT_SCROLL_SEARCH_SUCCESS, payload: data});
+        })
+        .catch(err => {
+            console.log("ERROR SEARCHING", err);
+            dispatch({ type: NEXT_SCROLL_SEARCH_FAIL, payload: err});
+        });
+}
+
+export const NEXT_FOLLOWERS_START = 'NEXT_FOLLOWERS_START';
+export const NEXT_FOLLOWERS_SUCCESS = 'NEXT_FOLLOWERS_SUCCESS';
+export const NEXT_FOLLOWERS_FAIL = 'NEXT_FOLLOWERS_FAIL';
+export const NEXT_FOLLOWERS_LINK = 'NEXT_FOLLOWERS_LINK';
+
+export const fetchNextFollowers = (nextUrl) => (dispatch) =>{
+    dispatch({ type: NEXT_FOLLOWERS_START});
+    fetch(nextUrl)
+        .then(res => {
+            res.headers.forEach((value, name) => {
+                console.log(name + ":" + value);
+                if (name === 'link') {
+                    dispatch({ type: NEXT_FOLLOWERS_LINK, payload: value});
+                }
+            })
+            return res.json();
+        })
+        .then(data => {
+            dispatch({ type: NEXT_FOLLOWERS_SUCCESS, payload: data});
+        })
+        .catch(err => {
+            console.log("ERROR SEARCHING", err);
+            dispatch({ type: NEXT_FOLLOWERS_FAIL, payload: err});
+        });
+}
+
+export const NEXT_REPO_START = 'NEXT_FOLLOWERS_START';
+export const NEXT_REPO_SUCCESS = 'NEXT_FOLLOWERS_SUCCESS';
+export const NEXT_REPO_FAIL = 'NEXT_FOLLOWERS_FAIL';
+export const NEXT_REPO_LINK = 'NEXT_FOLLOWERS_LINK';
+
+export const fetchNextRepo = (nextUrl) => (dispatch) =>{
+    dispatch({ type: NEXT_REPO_START});
+    fetch(nextUrl)
+        .then(res => {
+            res.headers.forEach((value, name) => {
+                console.log(name + ":" + value);
+                if (name === 'link') {
+                    dispatch({ type: NEXT_REPO_LINK, payload: value});
+                }
+            })
+            return res.json();
+        })
+        .then(data => {
+            dispatch({ type: NEXT_REPO_SUCCESS, payload: data});
+        })
+        .catch(err => {
+            console.log("ERROR SEARCHING", err);
+            dispatch({ type: NEXT_REPO_FAIL, payload: err});
+        });
 }
