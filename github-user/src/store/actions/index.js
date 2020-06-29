@@ -94,6 +94,7 @@ export const fetchIndData = (login) => (dispatch) => {
         });
 }
 
+//handles search results and dispatches data to state
 export const FETCH_SEARCH = "FETCH_SEARCH";
 export const FETCH_SEARCH_SUCCESS = "FETCH_SEARCH_SUCCESS";
 export const FETCH_SEARCH_FAIL = "FETCH_SEARCH_FAIL";
@@ -119,7 +120,7 @@ export const searchUser = (search) => dispatch => {
     });
 }
 
-
+//handles infinite scroll for search results 
 export const NEXT_SCROLL_START = 'NEXT_SCROLL_START';
 export const NEXT_SCROLL_SEARCH_SUCCESS = 'NEXT_SCROLL_SEARCH_SUCCESS';
 export const NEXT_SCROLL_SEARCH_FAIL = 'NEXT_SCROLL_SEARCH_FAIL';
@@ -146,6 +147,7 @@ export const fetchNextSearch = (nextUrl) => (dispatch) =>{
         });
 }
 
+//handles infinite scroll for followers tab inside user profile page
 export const NEXT_FOLLOWERS_START = 'NEXT_FOLLOWERS_START';
 export const NEXT_FOLLOWERS_SUCCESS = 'NEXT_FOLLOWERS_SUCCESS';
 export const NEXT_FOLLOWERS_FAIL = 'NEXT_FOLLOWERS_FAIL';
@@ -172,6 +174,9 @@ export const fetchNextFollowers = (nextUrl) => (dispatch) =>{
         });
 }
 
+
+//Handles fetch request for Repositories on Scroll, Deprecated since github repo enpoint doesn't return Header Pagination
+
 export const NEXT_REPO_START = 'NEXT_FOLLOWERS_START';
 export const NEXT_REPO_SUCCESS = 'NEXT_FOLLOWERS_SUCCESS';
 export const NEXT_REPO_FAIL = 'NEXT_FOLLOWERS_FAIL';
@@ -196,4 +201,13 @@ export const fetchNextRepo = (nextUrl) => (dispatch) =>{
             console.log("ERROR SEARCHING", err);
             dispatch({ type: NEXT_REPO_FAIL, payload: err});
         });
+}
+
+
+
+
+
+export const IN_PROFILE = "IN_PROFILE";
+export const toggleNav = (current) => (dispatch) => {
+    dispatch({ type:IN_PROFILE, payload: current})
 }

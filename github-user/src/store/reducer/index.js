@@ -29,6 +29,7 @@ import {
     NEXT_REPO_SUCCESS,
     NEXT_REPO_FAIL,
     NEXT_REPO_LINK,
+    IN_PROFILE
 
 } from '../actions/index';
 
@@ -54,6 +55,7 @@ const initialState = {
     searchResults:[],
     nextFollowersLink:'',
     nextRepoLink:'',
+    inProfile:false,
 }
 
 export const githubUserReducer = (state=initialState, action) => {
@@ -148,6 +150,7 @@ export const githubUserReducer = (state=initialState, action) => {
                 isFetchingInd: false
             }
 
+    //state for search results
         case FETCH_SEARCH:
             return {
                 ...state,
@@ -168,6 +171,7 @@ export const githubUserReducer = (state=initialState, action) => {
                 errorSearch: action.payload,
             }
 
+    //state for infinite scroll on search results
         case  FETCH_NEXT_SEARCH_SUCCESS:
             return {
                 ...state,
@@ -242,6 +246,11 @@ export const githubUserReducer = (state=initialState, action) => {
             return {
                 ...state,
                 currentRepoPage: action.payload,
+            }
+        case IN_PROFILE:
+            return {
+                ...state,
+                inProfile: action.payload,
             }
 
         default:

@@ -1,10 +1,20 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersData, fetchIndData  } from '../store/actions';
+import { fetchUsersData, fetchIndData, toggleNav  } from '../store/actions';
 import UserCard from './UserCard';
 import { Link } from 'react-router-dom';
 
-const UserCont = ({fetchUsersData, fetchIndData, users, currentPage, isFetchingAll, userInfo, isFetchingInd}) => {
+const UserCont = ({
+    fetchUsersData,
+    fetchIndData,
+    users,
+    currentPage,
+    isFetchingAll,
+    userInfo,
+    isFetchingInd,
+    toggleNav,
+    inProfile
+    }) => {
 
     //checks to see if the user is at the bottom, if so envokes fetchUsersData()
     const handleScroll = () => {
@@ -12,11 +22,13 @@ const UserCont = ({fetchUsersData, fetchIndData, users, currentPage, isFetchingA
             return;
         }
         console.log("CURREEECT PAGE",currentPage)
+        
         fetchUsersData(currentPage);
     }
 
     const handleClick = async (login) => {
         await fetchIndData(login);
+        toggleNav(inProfile);
     }
 
     //initial component mount
@@ -29,6 +41,12 @@ const UserCont = ({fetchUsersData, fetchIndData, users, currentPage, isFetchingA
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [users, isFetchingAll]);
+
+    useEffect(() => {
+        window.onpopstate = e => {
+            toggleNav(false)
+         }
+    }, [inProfile]);
 
 
     return (
@@ -60,6 +78,7 @@ const mapStateToProps = state => {
         isFetchingAll: state.isFetchingAll,
         isFetchingInd: state.isFetchingInd,
         userInfo: state.userInfo,
+        inProfile: state.inProfile,
     }
 }
 
@@ -67,5 +86,6 @@ const mapStateToProps = state => {
 export default connect(
     mapStateToProps,
      { fetchUsersData,
-        fetchIndData,  })
+        fetchIndData,
+        toggleNav,  })
     (UserCont)

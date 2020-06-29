@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import UserCard from './UserCard';
 import { connect } from 'react-redux';
 import RepoCard from './RepoCard';
-import { fetchIndData, fetchNextFollowers} from '../store/actions/index';
+import { fetchIndData, fetchNextFollowers,toggleNav} from '../store/actions/index';
 import  parse  from 'parse-link-header';
 
 const UserPage= ({
@@ -11,7 +11,10 @@ const UserPage= ({
     isFetchingRepo,
     userFollowers,
     fetchNextFollowers,
-    nextFollowersLink
+    nextFollowersLink,
+    isFetchingFollowers,
+    toggleNav,
+    inProfile
     }) => {
 
     const [tab, setTab] = useState('repositories');
@@ -35,13 +38,20 @@ const UserPage= ({
         }
 
         let headerLink = parse(nextFollowersLink);
-        fetchNextFollowers(headerLink.next.url);   
+        if(headerLink !== null || headerLink !== '' ){
+            fetchNextFollowers(headerLink.next.url);
+        }
+         
     }
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [userFollowers]);
+
+    useEffect(() => {
+        toggleNav(true)
+    }, [inProfile]);
 
     return(
         <div className="app">
@@ -108,20 +118,27 @@ const UserPage= ({
                     ))}
                 </div> 
                 :
-                <div className="followers-cont">
-                    { userFollowers.map(follower => (
-                        <div key={follower.id} onClick={()=>{extLink(follower.html_url)}}>                    
-                                <UserCard 
-                                    img={follower.avatar_url}
-                                    login={follower.login}
-                                />
-                        </div>
-                    ))
-                    }
-                </div>
+                <>
+                    <div className="followers-cont">
+                        { userFollowers.map(follower => (
+                            <div key={follower.id} onClick={()=>{extLink(follower.html_url)}}>                    
+                                    <UserCard 
+                                        img={follower.avatar_url}
+                                        login={follower.login}
+                                    />
+                            </div>
+                        ))
+                        }
+                        
+                    </div>
+                    <div className="user-cont">
+                        { isFetchingFollowers && <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>}
+                        
+                    </div>
+                </>
                 }
-
-            </div>}
+            </div>
+            }
         </div>
     )
 }
@@ -133,6 +150,8 @@ const mapStateToProps = state => {
         isFetchingRepo: state.isFetchingRepo,
         userFollowers: state.userFollowers,
         nextFollowersLink: state.nextFollowersLink,
+        isFetchingFollowers: state.isFetchingFollowers,
+        inProfile: state.inProfile,
     }
 }
 
@@ -141,5 +160,6 @@ export default connect(
     {
         fetchIndData,
         fetchNextFollowers,
+        toggleNav
      }
 )(UserPage);

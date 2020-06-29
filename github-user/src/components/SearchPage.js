@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import UserCard from './UserCard';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchIndData, fetchNextSearch } from '../store/actions';
+import { fetchIndData, fetchNextSearch, toggleNav } from '../store/actions';
 import  parse  from 'parse-link-header';
 
 
-
-
-const SearchPage = ({searchResults, nextSearchLink, isSearching, fetchIndData, fetchNextSearch}) => {
-
+const SearchPage = ({
+    searchResults,
+    nextSearchLink,
+    isSearching,
+    fetchIndData,
+    fetchNextSearch,
+    toggleNav
+    }) => {
 
     const handleClick = async (login) => {
         await fetchIndData(login);
@@ -19,12 +23,18 @@ const SearchPage = ({searchResults, nextSearchLink, isSearching, fetchIndData, f
         if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
             return;
         }
+        
         let headerLink = parse(nextSearchLink);
-        fetchNextSearch(headerLink.next.url);
+        if(headerLink !== null || headerLink !== '' ){ 
+            fetchNextSearch(headerLink.next.url);
+        }
     }
-
+        
 
     useEffect(() => {
+        window.onpopstate = e => {
+            toggleNav(false)
+         }
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [searchResults]);
@@ -42,8 +52,12 @@ const SearchPage = ({searchResults, nextSearchLink, isSearching, fetchIndData, f
                         </Link>
                     </div>
                     ))}
-                                        
-            </div>
+
+             </div>
+             <div className="user-cont">
+                 { isSearching && <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>}  
+             </div>
+            
         </>
     )
 }
@@ -57,4 +71,4 @@ const mapStateToProp = state => {
     }
 }
 
-export default connect(mapStateToProp,{fetchIndData,fetchNextSearch})(SearchPage);
+export default connect(mapStateToProp,{fetchIndData,fetchNextSearch, toggleNav})(SearchPage);

@@ -6,9 +6,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import UserPage from './components/UserPage';
 import Nav from './components/Nav';
 import SearchPage from './components/SearchPage';
-import { connect } from 'react-redux';
 
-function App({isSearching, searchResults}) {
+function App() {
   return (
     <Router>
     <Nav />
@@ -21,11 +20,4 @@ function App({isSearching, searchResults}) {
   );
 }
 
-const mapStateToProp = state => {
-  return {
-    isSearching: state.isSearching,
-    searchResults: state.searchResults,
-  }
-}
-
-export default connect(mapStateToProp,{})(App);
+export default App;
