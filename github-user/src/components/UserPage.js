@@ -33,25 +33,22 @@ const UserPage= ({
 
 
     const handleScroll = () => {
-        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
-            return;
-        }
-
-        let headerLink = parse(nextFollowersLink);
-        if(headerLink !== null || headerLink !== '' ){
-            fetchNextFollowers(headerLink.next.url);
-        }
-         
+        if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1) {
+            let headerLink = parse(nextFollowersLink);
+            if(headerLink !== null || headerLink !== '' ){
+                fetchNextFollowers(headerLink.next.url)
+            }
+        }         
     }
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [userFollowers]);
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [userFollowers])
 
     useEffect(() => {
         toggleNav(true)
-    }, [inProfile]);
+    }, [inProfile])
 
     return(
         <div className="app">

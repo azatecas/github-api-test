@@ -16,11 +16,9 @@ const UserCont = ({
 
     //checks to see if the user is at the bottom, if so envokes fetchUsersData()
     const handleScroll = () => {
-        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) {
-            return;
-        };
-
-        fetchUsersData(currentPage);
+        if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1){
+            fetchUsersData(currentPage);
+        }
     };
 
     const handleClick = async (login) => {
@@ -34,13 +32,13 @@ const UserCont = ({
     
     //resets after user state changes
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [users, isFetchingAll]);
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [users])
 
     useEffect(() => {
         toggleNav(false)
-    }, [inProfile]);
+    }, [inProfile])
 
     return (
         <>
@@ -70,7 +68,7 @@ const mapStateToProps = state => {
         users: state.users,
         isFetchingAll: state.isFetchingAll,
         inProfile: state.inProfile,
-    };
+    }
 };
 
 export default connect(
